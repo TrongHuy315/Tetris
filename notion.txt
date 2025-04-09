@@ -1,0 +1,52 @@
+- GameBoard: bảng lưới của game gồm: phần có hiển thị và phần không hiển thị
+- Tetromino: là những khối hình gồm: L, J, O, T, S, Z, I có các màu sắc tương ứng
+    -> Xoay theo chiều kim đồng hồ
+- GameTick: khoảng thời gian rơi của 1 khối / 1 ô: từ 0.5s đến 1s
+- Càng nhiều hàng được hoàn thành cùng lúc thì điểm càng cao (tối đa 4 hàng)
+- Game kết thúc khi khối mới không thể rơi xuống được nữa
+
+* Một số biến lưu trạng thái game theo thời gian:
+    + boardWidth, boardHeight: chiều rộng, chiều cao của bảng game
+    + currentTetromino: giữ đối tượng khối tetromino hiện tại
+    + currentBoard: lưu trạng thái bảng game hiện tại
+    + landedBoard: lưu trạng thái bảng game chứa những mảnh đã hạ xuống
+
+    => currentBoard = landedBoard + currentTetromino
+
+    - Khi vẽ bảng trạng thái game thì bỏ qua k hàng đầu, bởi vì là chỗ để các mảnh rơi xuống
+
+* Class cho các Tetromino:
+Câu hỏi: Tại sao các mảnh lại cần đánh số trong ma trận 2 chiều? Do cần phân biệt màu sắc trong bảng
+- Class của các Tetromino gồm các phương thức:
+    + row, col: vị trí trên board game
+    + angle: chiều xoay hiện tại của khối
+    + width, height: chiều dài, chiều rộng của khối
+    + move(): di chuyển trái, phải
+    + fall(): di chuyển xuống
+    + rotate(): xoay
+
+- Hàm tạo ngẫu nhiên các mảnh khối (kết hợp random 7-bag để cải thiện xác suất ra mảnh)
+
+* Vòng lặp game:
+- Sau một khoảng thời gian nhất định cho một vòng lặp, cần làm:
+    + progress(): tính toán trạng thái tiếp theo của game
+    + Cập nhật currentBoard từ (landedBoard + currentTetromino)
+    + Vẽ lại trạng thái game bằng draw()
+
+* Va chạm đối với các khối Tetromino:
+- Có 4 điều kiện va chạm cần được kiểm tra trong game:
+    + Đường biên trái
+    + Đường biên phải
+    + Đường biên dưới
+    + Những khối đã xuống
+- Di chuyển xuống:
+    + Khi nhấn 'di chuyển xuống' hoặc sau 1 chu kỳ thì sẽ thực hiện progress() -> Viết lại hàm
+- Tương tự cho di chuyển trái, phải
+- Xoay khối: kết hợp với các điều kiện trên là xong
+
+* Clear hàng, tính điểm:
+    + Hàm tìm ra các hàng bị đầy
+    + Hàm dọn đi các hàng nhận trong tham số truyền vào
+    + Hàm tính điểm
+    + Hàm xử lý GameOver
+...
